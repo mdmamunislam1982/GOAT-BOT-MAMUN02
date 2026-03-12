@@ -46,7 +46,7 @@ module.exports = {
         const r = ran[Math.floor(Math.random() * ran.length)];
         return message.reply(r, (err, info) => {
           if (!err) {
-            global.GoatBot.onReply.set(info.messageID, { commandName: "baby", author: senderID });
+            global.GoatBot.onReply.set(info.messageID, { commandName: "bow", author: senderID });
           }
         });
       }
