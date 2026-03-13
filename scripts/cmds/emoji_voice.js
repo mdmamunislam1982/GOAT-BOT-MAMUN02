@@ -98,7 +98,7 @@ module.exports = {
 "💜": "https://files.catbox.moe/iadsrj.mp3",
 "🤎": "https://files.catbox.moe/iadsrj.mp3",
 "🖤": "https://files.catbox.moe/iadsrj.mp3",
-"😼": "https://files.catbox.moe/0jdk2l.mp3",
+"🥵": "https://files.catbox.moe/0jdk2l.mp3",
 "😠": "https://files.catbox.moe/vkdh0v.mp3",
 "😈": "https://files.catbox.moe/vkdh0v.mp3",
 "🌚": "https://files.catbox.moe/grciw4.mp3",
