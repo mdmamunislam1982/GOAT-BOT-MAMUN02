@@ -43,7 +43,7 @@ module.exports = {
         .normalize("NFKD")
         .replace(/[^\w\s-]/g, "")
         .replace(/\s+/g, " ")
-        .trim()
+        .trim)
         .toLowerCase();
     };
 
@@ -122,7 +122,7 @@ module.exports = {
       msg += `${formatCommands(categories[cat])}\n`;
     }
 
-    msg += `━━━━━━━━━━━━━━━━━━━\n💡 ${fancy(`TIP: USE "${prefix}help [command]" TO GET FULL DETAILS.`)}\n🪄 ${fancy("🤖 𝙱𝚘𝚝 𝙾𝚠𝚗𝚎𝚛 : 𝙼𝚊𝚖𝚞𝚗-𝙱𝚘𝚜𝚜✨")}`;
+    msg += `━━━━━━━━━━━━━━━━━━━\n💡 ${fancy(`TIP: USE "${prefix}help [command]" TO GET FULL DETAILS.`)}\n🪄 ${fancy("𝙱𝚘𝚝 𝙾𝚠𝚗𝚎𝚛 : 𝙼𝚊𝚖𝚞𝚗 ")}`;
 
     return message.reply({
       body: msg,
