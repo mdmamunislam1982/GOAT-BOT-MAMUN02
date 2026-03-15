@@ -20,7 +20,7 @@ module.exports = {
 
     const name = event.mentions[mention].replace("@","");
 
-    const img = (await axios.get("https://i.imgur.com/4AiXzf8.jpeg", { responseType: "stream" })).data;
+    const img = (await axios.get("https://files.catbox.moe/ku4hnj.jpg", { responseType: "stream" })).data;
 
     api.sendMessage({
       body: `🤣🐮 @${name} একদম আসল গরু হয়ে গেছে বিদেশী গরু! ✨`,
