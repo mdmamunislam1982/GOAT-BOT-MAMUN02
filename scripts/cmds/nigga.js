@@ -1,14 +1,14 @@
 const axios = require("axios");
-const fs = require("fs");
+const fs = require("fs-extra");
 const path = require("path");
 
 module.exports = {
   config: {
-    name: "nigga",
-    aliases: ["roast", "burn"],
-    version: "1.2",
-    author: "nexo_here",
-    countDown: 2,
+    name: "roast",
+    aliases: ["burn"],
+    version: "2.0",
+    author: "nexo_here (edited)",
+    countDown: 3,
     role: 0,
     description: "Send a roast image using UID",
     category: "fun",
@@ -19,23 +19,44 @@ module.exports = {
 
   onStart: async function ({ api, event }) {
     try {
+
       const mention = Object.keys(event.mentions || {});
       const targetUID = mention.length > 0 ? mention[0] : event.senderID;
 
+      const cacheFolder = path.join(__dirname, "cache");
+      if (!fs.existsSync(cacheFolder)) {
+        fs.mkdirSync(cacheFolder);
+      }
+
+      const filePath = path.join(cacheFolder, `roast_${targetUID}_${Date.now()}.jpg`);
+
       const url = `https://betadash-api-swordslush-production.up.railway.app/nigga?userid=${targetUID}`;
-      const response = await axios.get(url, { responseType: 'arraybuffer' });
 
-      const filePath = path.join(__dirname, "cache", `roast_${targetUID}.jpg`);
-      fs.writeFileSync(filePath, Buffer.from(response.data, "binary"));
+      const response = await axios({
+        method: "GET",
+        url: url,
+        responseType: "arraybuffer"
+      });
 
-      api.sendMessage({
-        body: `Look I found a nigga 😂`,
-        attachment: fs.createReadStream(filePath)
-      }, event.threadID, () => fs.unlinkSync(filePath), event.messageID);
+      fs.writeFileSync(filePath, Buffer.from(response.data));
 
-    } catch (e) {
-      console.error("Error:", e.message);
-      api.sendMessage("❌ Couldn't generate image. Try again later.", event.threadID, event.messageID);
+      api.sendMessage(
+        {
+          body: "😂 Roast incoming!",
+          attachment: fs.createReadStream(filePath)
+        },
+        event.threadID,
+        () => fs.unlinkSync(filePath),
+        event.messageID
+      );
+
+    } catch (error) {
+      console.log(error);
+      api.sendMessage(
+        "❌ Image generate করতে সমস্যা হয়েছে। পরে আবার চেষ্টা করো।",
+        event.threadID,
+        event.messageID
+      );
     }
   }
 };
