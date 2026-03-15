@@ -26,7 +26,7 @@ module.exports = {
       const img = path.join(cache, `roast_${Date.now()}.jpg`);
 
       const res = await axios({
-        url: `https://betadash-api-swordslush-production.up.railway.app/nigga?userid=${uid}`,
+        url: `https://simsimi-api-tjb1.onrender.com}`,
         method: "GET",
         responseType: "stream"
       });
