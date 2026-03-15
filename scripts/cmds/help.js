@@ -7,7 +7,7 @@ module.exports = {
     name: "help",
     aliases: ["menu", "commands"],
     version: "5.0",
-    author: "ALVI-BOSS",
+    author: " Md Mamun",
     shortDescription: "𝙎𝙝𝙤𝙬 𝙖𝙡𝙡 𝙘𝙤𝙢𝙢𝙖𝙣𝙙𝙨",
     longDescription: "𝘿𝙞𝙨𝙥𝙡𝙖𝙮𝙨 𝙖 𝙗𝙚𝙖𝙪𝙩𝙞𝙛𝙪𝙡 𝙛𝙤𝙣𝙩-𝙨𝙩𝙮𝙡𝙚𝙙 𝙘𝙖𝙩𝙚𝙜𝙤𝙧𝙞𝙯𝙚𝙙 𝙘𝙤𝙢𝙢𝙖𝙣𝙙 𝙢𝙚𝙣𝙪.",
     category: "system",
@@ -122,7 +122,7 @@ module.exports = {
       msg += `${formatCommands(categories[cat])}\n`;
     }
 
-    msg += `━━━━━━━━━━━━━━━━━━━\n💡 ${fancy(`TIP: USE "${prefix}help [command]" TO GET FULL DETAILS.`)}\n🪄 ${fancy("BOT BY: ALVI-BOSS ✨")}`;
+    msg += `━━━━━━━━━━━━━━━━━━━\n💡 ${fancy(`TIP: USE "${prefix}help [command]" TO GET FULL DETAILS.`)}\n🪄 ${fancy("🤖 𝙱𝚘𝚝 𝙾𝚠𝚗𝚎𝚛 : 𝙼𝚊𝚖𝚞𝚗-𝙱𝚘𝚜𝚜✨")}`;
 
     return message.reply({
       body: msg,
