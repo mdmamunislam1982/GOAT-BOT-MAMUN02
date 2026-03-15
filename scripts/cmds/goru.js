@@ -1,10 +1,11 @@
 const fs = require("fs");
 const axios = require("axios");
+const path = require("path");
 
 module.exports = {
   config: {
     name: "goru",
-    version: "1.0",
+    version: "1.1",
     author: "Mamun",
     countDown: 5,
     role: 0,
@@ -15,20 +16,33 @@ module.exports = {
   },
 
   onStart: async function ({ api, event }) {
+
     const mention = Object.keys(event.mentions)[0];
-    if (!mention) return api.sendMessage("⚠️ একজনকে মেনশন করো!", event.threadID);
+    if (!mention)
+      return api.sendMessage("⚠️ একজনকে মেনশন করো!", event.threadID);
 
-    const name = event.mentions[mention].replace("@","");
+    const name = event.mentions[mention].replace("@", "");
 
-    const img = (await axios.get("https://files.catbox.moe/ku4hnj.jpg", { responseType: "stream" })).data;
+    const imgPath = path.join(__dirname, "cache", "goru.jpg");
 
-    api.sendMessage({
-      body: `🤣🐮 @${name} একদম আসল গরু হয়ে গেছে বিদেশী গরু! ✨`,
-      mentions: [{
-        id: mention,
-        tag: `@${name}`
-      }],
-      attachment: img
-    }, event.threadID);
+    const response = await axios({
+      url: "https://i.imgur.com/FmGoTmo.jpeg",
+      method: "GET",
+      responseType: "stream"
+    });
+
+    const writer = fs.createWriteStream(imgPath);
+    response.data.pipe(writer);
+
+    writer.on("finish", () => {
+      api.sendMessage({
+        body: `🤣🐮 @${name} একদম আসল গরু হয়ে গেছে বিদেশী গরু! ✨`,
+        mentions: [{
+          id: mention,
+          tag: `@${name}`
+        }],
+        attachment: fs.createReadStream(imgPath)
+      }, event.threadID);
+    });
   }
 };
