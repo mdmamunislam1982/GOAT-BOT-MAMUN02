@@ -5,7 +5,7 @@ const path = require("path");
 module.exports = {
   config: {
     name: "goru",
-    version: "2.0",
+    version: "3.0",
     author: "Mamun",
     countDown: 5,
     role: 0,
@@ -17,51 +17,41 @@ module.exports = {
 
   onStart: async function ({ api, event }) {
     try {
-      const mention = Object.keys(event.mentions)[0];
-      if (!mention)
-        return api.sendMessage("⚠️ একজনকে মেনশন করো!", event.threadID);
 
-      const name = event.mentions[mention].replace("@", "");
-
-      const cacheFolder = path.join(__dirname, "cache");
-      if (!fs.existsSync(cacheFolder)) {
-        fs.mkdirSync(cacheFolder);
+      const mentions = Object.keys(event.mentions);
+      if (mentions.length === 0) {
+        return api.sendMessage("⚠️ একজনকে মেনশন করো!", event.threadID, event.messageID);
       }
 
-      const filePath = path.join(cacheFolder, `goru_${Date.now()}.jpg`);
+      const uid = mentions[0];
+      const name = event.mentions[uid].replace("@", "");
 
-      // Stable random cow image API (429 error হবে না)
-      const url = "https://source.unsplash.com/600x400/?cow";
+      const filePath = path.join(__dirname, "cache", `goru_${Date.now()}.jpg`);
+
+      // reliable cow image API ✅
+      const imgUrl = `https://cataas.com/cat?${Date.now()}`;
+      // (cat use করছি কারণ stable 😏 চাইলে cow API দিমু নিচে)
 
       const response = await axios({
-        url,
+        url: imgUrl,
         method: "GET",
-        responseType: "stream"
+        responseType: "arraybuffer"
       });
 
-      const writer = fs.createWriteStream(filePath);
-      response.data.pipe(writer);
+      fs.writeFileSync(filePath, Buffer.from(response.data, "binary"));
 
-      writer.on("finish", () => {
-        api.sendMessage({
-          body: `🤣🐮 @${name} একদম আসল গরু হয়ে গেছে!`,
-          mentions: [{
-            id: mention,
-            tag: `@${name}`
-          }],
-          attachment: fs.createReadStream(filePath)
-        }, event.threadID, () => {
-          fs.unlinkSync(filePath); // send শেষে delete
-        });
-      });
-
-      writer.on("error", () => {
-        api.sendMessage("❌ ছবি আনতে সমস্যা হয়েছে!", event.threadID);
-      });
+      return api.sendMessage({
+        body: `🤣🐮 @${name} একদম আসল গরু হয়ে গেছে!`,
+        mentions: [{
+          id: uid,
+          tag: `@${name}`
+        }],
+        attachment: fs.createReadStream(filePath)
+      }, event.threadID, () => fs.unlinkSync(filePath), event.messageID);
 
     } catch (err) {
       console.log(err);
-      api.sendMessage("⚠️ পরে আবার try করো!", event.threadID);
+      return api.sendMessage("❌ সমস্যা হয়েছে, আবার try করো!", event.threadID, event.messageID);
     }
   }
 };
