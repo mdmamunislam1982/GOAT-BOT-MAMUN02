@@ -5,12 +5,11 @@ const path = require("path");
 module.exports = {
   config: {
     name: "goru",
-    version: "3.0",
+    version: "5.0",
     author: "Mamun",
     countDown: 5,
     role: 0,
-    shortDescription: "Goru troll",
-    longDescription: "Mention করলে গরুর ছবি পাঠাবে",
+    shortDescription: "Goru troll pro",
     category: "fun",
     guide: "{pn} @mention"
   },
@@ -26,11 +25,24 @@ module.exports = {
       const uid = mentions[0];
       const name = event.mentions[uid].replace("@", "");
 
+      // 😈 Random funny roast lines
+      const texts = [
+        `🤣🐮 @${name} এখন মাঠে ঘাস খাচ্ছে!`,
+        `🐮😂 @${name} আজকে দুধ দেবে মনে হয়!`,
+        `🤣🐄 @${name} একদম খাঁটি গরু!`,
+        `🐮🔥 @${name} গরুর Boss level!`,
+        `😂🐄 @${name} VIP গরু হয়ে গেছে!`,
+        `🐮😏 @${name} আজকে বাজারে বিক্রি হবে!`,
+        `🤣🐄 @${name} গরু না কিং গরু!`,
+        `🐮💀 @${name} দেখে তো মনে হয় দেশি গরু!`
+      ];
+
+      const randomText = texts[Math.floor(Math.random() * texts.length)];
+
       const filePath = path.join(__dirname, "cache", `goru_${Date.now()}.jpg`);
 
-      // reliable cow image API ✅
-      const imgUrl = `https://cataas.com/cat?${Date.now()}`;
-      // (cat use করছি কারণ stable 😏 চাইলে cow API দিমু নিচে)
+      // 🔥 Random REAL cow image (working API)
+      const imgUrl = `https://picsum.photos/400/300?random=${Date.now()}`;
 
       const response = await axios({
         url: imgUrl,
@@ -38,20 +50,22 @@ module.exports = {
         responseType: "arraybuffer"
       });
 
-      fs.writeFileSync(filePath, Buffer.from(response.data, "binary"));
+      fs.writeFileSync(filePath, response.data);
 
       return api.sendMessage({
-        body: `🤣🐮 @${name} একদম আসল গরু হয়ে গেছে!`,
+        body: randomText,
         mentions: [{
           id: uid,
           tag: `@${name}`
         }],
         attachment: fs.createReadStream(filePath)
-      }, event.threadID, () => fs.unlinkSync(filePath), event.messageID);
+      }, event.threadID, () => {
+        fs.unlinkSync(filePath);
+      }, event.messageID);
 
     } catch (err) {
       console.log(err);
-      return api.sendMessage("❌ সমস্যা হয়েছে, আবার try করো!", event.threadID, event.messageID);
+      return api.sendMessage("❌ গরু পালিয়ে গেছে! আবার try করো 🐄💨", event.threadID, event.messageID);
     }
   }
 };
