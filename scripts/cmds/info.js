@@ -68,7 +68,7 @@ module.exports = {
 │ ⚙ Uptime: ${uptimeText}
 │
 │ 🌐 FB: https://www.facebook.com/md.mamun.islam3210
-│ 📱 WhatsApp: 01709281334
+│ 📱 WhatsApp: 01575812932
 │
 ╰───────────────╯`,
 
