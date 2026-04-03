@@ -42,7 +42,7 @@ module.exports = {
       const filePath = path.join(__dirname, "cache", `goru_${Date.now()}.jpg`);
 
       // 🔥 Random REAL cow image (working API)
-      const imgUrl = `https://picsum.photos/400/300?random=${Date.now()}`;
+      const imgUrl = `https://files.catbox.moe/srtwdo.jpg${Date.now()}`;
 
       const response = await axios({
         url: imgUrl,
