@@ -47,7 +47,7 @@ ${target} control haraiya dise 😂
 
     const randomMsg = styles[Math.floor(Math.random() * styles.length)];
 
-    const imgPath = path.join(__dirname, "cache", "toilet.jpg");
+    const imgPath = path.join(__dirname, "cache", "https://i.imgur.com/8dfg75w.jpeg");
 
     // image optional (error free)
     if (!fs.existsSync(imgPath)) {
