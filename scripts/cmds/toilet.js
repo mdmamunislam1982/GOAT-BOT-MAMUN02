@@ -4,48 +4,59 @@ const path = require("path");
 module.exports = {
   config: {
     name: "toiletx",
-    aliases: ["tx", "flushx"],
-    version: "2.0",
-    author: "V2 Fix Dev",
-    countDown: 2,
+    aliases: ["tx", "flushx", "toiletx"],
+    version: "9.0",
+    author: "Raiyan Dev X",
+    countDown: 1,
     role: 0,
-    shortDescription: "Toilet troll V2 🚽",
-    longDescription: "Funny toilet command",
+    shortDescription: "Toilet X Pro Max 🚽🔥",
     category: "fun",
     guide: "{pn} @mention / text"
   },
 
   onStart: async function ({ api, event, args }) {
 
-    try {
-      const mention = Object.keys(event.mentions)[0];
-      const name = mention 
-        ? event.mentions[mention] 
-        : (args.join(" ") || "User");
+    const mention = Object.keys(event.mentions)[0];
+    const target = mention 
+      ? event.mentions[mention] 
+      : (args.join(" ") || "Unknown User");
 
-      const msgList = [
-        `🚽 ${name} toilet e dhuke pore gese 🤣`,
-        `💩 ${name} ekhon emergency mode e 😂`,
-        `🧻 ${name} busy... disturb koro na 😈`,
-        `🤣 ${name} ke direct flush kore deya hoise 🌊`,
-        `💀 ${name} toilet system e atke gese 😂`
-      ];
+    const styles = [
+`🚨 𝗧𝗢𝗜𝗟𝗘𝗧 𝗦𝗬𝗦𝗧𝗘𝗠 🚨
+👤 Target: ${target}
+💩 Pressure: MAX (999%)
+🚽 Action: Auto Send...`,
 
-      const msg = msgList[Math.floor(Math.random() * msgList.length)];
+`🧻 ${target} detected!
+📡 Scanning Complete ✅
+🚽 Teleporting to toilet...
+💀 Done 🤣`,
 
-      const imgPath = path.join(__dirname, "cache", "toilet.jpg");
+`💀 SYSTEM FAILURE!
+${target} control haraiya dise 😂
+🚽 Emergency flush activated 🌊`,
 
-      if (!fs.existsSync(imgPath)) {
-        return api.sendMessage(msg + "\n\n⚠️ image nai!", event.threadID, event.messageID);
-      }
+`🚽 ${target} entered danger zone!
+⏳ Processing...
+💩 Mission Success 😂🔥`,
 
-      return api.sendMessage({
-        body: msg,
-        attachment: fs.createReadStream(imgPath)
-      }, event.threadID, event.messageID);
+`🤣 ${target} ekhon toilet e VIP guest 😈
+🧻 Service: Premium
+🚽 Status: Busy 💀`
+    ];
 
-    } catch (e) {
-      return api.sendMessage("❌ Command error hoise!", event.threadID, event.messageID);
+    const randomMsg = styles[Math.floor(Math.random() * styles.length)];
+
+    const imgPath = path.join(__dirname, "cache", "toilet.jpg");
+
+    // image optional (error free)
+    if (!fs.existsSync(imgPath)) {
+      return api.sendMessage(randomMsg + "\n\n⚠️ image missing!", event.threadID, event.messageID);
     }
+
+    return api.sendMessage({
+      body: randomMsg,
+      attachment: fs.createReadStream(imgPath)
+    }, event.threadID, event.messageID);
   }
 };
