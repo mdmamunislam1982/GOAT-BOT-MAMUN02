@@ -1,41 +1,45 @@
 const axios = require("axios");
+const fs = require("fs-extra");
+const path = require("path");
 
 module.exports = {
   config: {
     name: "toilet",
-    aliases: ["flushx", "wcx"],
-    version: "3.0",
-    author: "Zihad Dev",
+    aliases: ["flush", "wc"],
+    version: "5.0",
+    author: "Dark Image Dev",
     countDown: 2,
     role: 0,
-    shortDescription: "Toilet system v3 🚽",
+    shortDescription: "Toilet with image 🚽🖼️",
     category: "fun",
-    guide: "{pn} @mention / text"
+    guide: "{pn} @mention"
   },
 
   onStart: async function ({ api, event, args }) {
 
     const target = Object.keys(event.mentions)[0];
-    const name = target ? event.mentions[target] : (args.join(" ") || "Unknown User");
+    const name = target ? event.mentions[target] : (args.join(" ") || "Unknown");
 
     const msgList = [
-      `🚽 SYSTEM ALERT 🚽
-➤ ${name} has been sent to toilet successfully 💀`,
-
-      `💩 Toilet Mission Activated!
-➤ Target: ${name}
-➤ Status: Flushing... 🌊`,
-
-      `🚨 Emergency Toilet Call 🚨
-➤ ${name} couldn't hold it anymore 🤣`,
-
-      `🧻 ${name} entered toilet...
-⏳ Processing...
-🚽 Gone forever 😂`
+      `🚽💩 ${name} toilet e dhukse 🤣`,
+      `💀 ${name} ke direct toilet e pathano holo 😂`,
+      `🧻 ${name} ekhon toilet e busy 😈`,
+      `🚨 ${name} emergency toilet situation!`
     ];
 
     const msg = msgList[Math.floor(Math.random() * msgList.length)];
 
-    return api.sendMessage(msg, event.threadID, event.messageID);
+    // 🔥 random toilet image URL
+    const imgUrl = "https://i.imgur.com/2RMz7FQ.jpg";
+
+    const imgPath = path.join(__dirname, "cache", "toilet.jpg");
+
+    const response = await axios.get(imgUrl, { responseType: "arraybuffer" });
+    fs.writeFileSync(imgPath, Buffer.from(response.data, "utf-8"));
+
+    return api.sendMessage({
+      body: msg,
+      attachment: fs.createReadStream(imgPath)
+    }, event.threadID, () => fs.unlinkSync(imgPath), event.messageID);
   }
 };
