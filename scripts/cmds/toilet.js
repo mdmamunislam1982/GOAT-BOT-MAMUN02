@@ -1,45 +1,51 @@
-const axios = require("axios");
-const fs = require("fs-extra");
+const fs = require("fs");
 const path = require("path");
 
 module.exports = {
   config: {
-    name: "toilet",
-    aliases: ["flush", "wc"],
-    version: "5.0",
-    author: "Dark Image Dev",
+    name: "toiletx",
+    aliases: ["tx", "flushx"],
+    version: "2.0",
+    author: "V2 Fix Dev",
     countDown: 2,
     role: 0,
-    shortDescription: "Toilet with image 🚽🖼️",
+    shortDescription: "Toilet troll V2 🚽",
+    longDescription: "Funny toilet command",
     category: "fun",
-    guide: "{pn} @mention"
+    guide: "{pn} @mention / text"
   },
 
   onStart: async function ({ api, event, args }) {
 
-    const target = Object.keys(event.mentions)[0];
-    const name = target ? event.mentions[target] : (args.join(" ") || "Unknown");
+    try {
+      const mention = Object.keys(event.mentions)[0];
+      const name = mention 
+        ? event.mentions[mention] 
+        : (args.join(" ") || "User");
 
-    const msgList = [
-      `🚽💩 ${name} toilet e dhukse 🤣`,
-      `💀 ${name} ke direct toilet e pathano holo 😂`,
-      `🧻 ${name} ekhon toilet e busy 😈`,
-      `🚨 ${name} emergency toilet situation!`
-    ];
+      const msgList = [
+        `🚽 ${name} toilet e dhuke pore gese 🤣`,
+        `💩 ${name} ekhon emergency mode e 😂`,
+        `🧻 ${name} busy... disturb koro na 😈`,
+        `🤣 ${name} ke direct flush kore deya hoise 🌊`,
+        `💀 ${name} toilet system e atke gese 😂`
+      ];
 
-    const msg = msgList[Math.floor(Math.random() * msgList.length)];
+      const msg = msgList[Math.floor(Math.random() * msgList.length)];
 
-    // 🔥 random toilet image URL
-    const imgUrl = "https://i.imgur.com/Hv1Blhb.jpeg";
+      const imgPath = path.join(__dirname, "cache", "toilet.jpg");
 
-    const imgPath = path.join(__dirname, "cache", "toilet.jpg");
+      if (!fs.existsSync(imgPath)) {
+        return api.sendMessage(msg + "\n\n⚠️ image nai!", event.threadID, event.messageID);
+      }
 
-    const response = await axios.get(imgUrl, { responseType: "arraybuffer" });
-    fs.writeFileSync(imgPath, Buffer.from(response.data, "utf-8"));
+      return api.sendMessage({
+        body: msg,
+        attachment: fs.createReadStream(imgPath)
+      }, event.threadID, event.messageID);
 
-    return api.sendMessage({
-      body: msg,
-      attachment: fs.createReadStream(imgPath)
-    }, event.threadID, () => fs.unlinkSync(imgPath), event.messageID);
+    } catch (e) {
+      return api.sendMessage("❌ Command error hoise!", event.threadID, event.messageID);
+    }
   }
 };
