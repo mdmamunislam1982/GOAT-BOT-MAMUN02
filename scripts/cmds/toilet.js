@@ -30,7 +30,7 @@ module.exports = {
     const msg = msgList[Math.floor(Math.random() * msgList.length)];
 
     // 🔥 random toilet image URL
-    const imgUrl = "https://i.imgur.com/2RMz7FQ.jpg";
+    const imgUrl = "https://i.imgur.com/Hv1Blhb.jpeg";
 
     const imgPath = path.join(__dirname, "cache", "toilet.jpg");
 
