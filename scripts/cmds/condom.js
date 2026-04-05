@@ -7,7 +7,7 @@ module.exports = {
     version: "1.0",
     author: "Raiyan Dev",
     countDown: 5,
-    role: 0,
+    role: 1,
     shortDescription: "Funny Condom Troll 😂",
     category: "fun",
     guide: "{pn} @mention"
