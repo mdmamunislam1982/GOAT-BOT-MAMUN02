@@ -11,7 +11,7 @@ const msg = await api.sendMessage(
     event.threadID
   );
 
-  const apiUrl = `https://mahbub-ullash.cyberbot.top/api/txt2video?prompt=${encodeURIComponent(prompt)}`;
+  const apiUrl = `https://simsimi-api-tjb1.onrender.com/tx=${encodeURIComponent(prompt)}`;
 
   const response = await axios.get(apiUrl);
   const data = response.data || {};
